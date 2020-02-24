@@ -28,7 +28,7 @@
   <packaging>jar</packaging>
 
   <name>Netty/Common</name>
-
+  <version>4.1.8.Final-leakfixed</version>
   <properties>
     <collection.template.dir>${project.basedir}/src/main/templates</collection.template.dir>
     <collection.template.test.dir>${project.basedir}/src/test/templates</collection.template.test.dir>
@@ -194,6 +194,14 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <executable>C:\Program Files\Java\jdk1.7.0_80\bin\javac.exe</executable>
+          <compilerVersion>1.7</compilerVersion>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <version>2.5.4</version>
@@ -218,4 +226,12 @@
       </plugin>
     </plugins>
   </build>
+  
+  <distributionManagement>
+    <repository>
+      <id>maven-releases-manual</id>
+      <url>http://qivicon-wbench.psst.t-online.corp/nexus3/repository/maven-releases-manual/</url>
+    </repository>
+  </distributionManagement>
+
 </project>

@@ -15,6 +15,7 @@
  */
 package io.netty.util.concurrent;
 
+import io.netty.util.internal.NettyUnsupportedOperationException;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
@@ -59,7 +60,7 @@ public final class GlobalEventExecutor extends AbstractScheduledEventExecutor {
     private final AtomicBoolean started = new AtomicBoolean();
     volatile Thread thread;
 
-    private final Future<?> terminationFuture = new FailedFuture<Object>(this, new UnsupportedOperationException());
+    private final Future<?> terminationFuture = new FailedFuture<Object>(this, new NettyUnsupportedOperationException());
 
     private GlobalEventExecutor() {
         scheduledTaskQueue().add(quietPeriodTask);

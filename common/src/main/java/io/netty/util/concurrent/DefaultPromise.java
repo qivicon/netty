@@ -17,6 +17,7 @@ package io.netty.util.concurrent;
 
 import io.netty.util.Signal;
 import io.netty.util.internal.InternalThreadLocalMap;
+import io.netty.util.internal.NettyCancellationException;
 import io.netty.util.internal.PlatformDependent;
 import io.netty.util.internal.StringUtil;
 import io.netty.util.internal.SystemPropertyUtil;
@@ -43,7 +44,7 @@ public class DefaultPromise<V> extends AbstractFuture<V> implements Promise<V> {
     private static final Signal SUCCESS = Signal.valueOf(DefaultPromise.class, "SUCCESS");
     private static final Signal UNCANCELLABLE = Signal.valueOf(DefaultPromise.class, "UNCANCELLABLE");
     private static final CauseHolder CANCELLATION_CAUSE_HOLDER = new CauseHolder(ThrowableUtil.unknownStackTrace(
-            new CancellationException(), DefaultPromise.class, "cancel(...)"));
+            new NettyCancellationException(), DefaultPromise.class, "cancel(...)"));
 
     private volatile Object result;
     private final EventExecutor executor;

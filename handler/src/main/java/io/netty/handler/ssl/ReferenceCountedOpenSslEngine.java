@@ -24,6 +24,7 @@ import io.netty.util.ResourceLeakDetector;
 import io.netty.util.ResourceLeakDetectorFactory;
 import io.netty.util.ResourceLeakTracker;
 import io.netty.util.internal.EmptyArrays;
+import io.netty.util.internal.NettySSLException;
 import io.netty.util.internal.PlatformDependent;
 import io.netty.util.internal.StringUtil;
 import io.netty.util.internal.ThrowableUtil;
@@ -86,13 +87,13 @@ public class ReferenceCountedOpenSslEngine extends SSLEngine implements Referenc
     private static final InternalLogger logger = InternalLoggerFactory.getInstance(ReferenceCountedOpenSslEngine.class);
 
     private static final SSLException BEGIN_HANDSHAKE_ENGINE_CLOSED = ThrowableUtil.unknownStackTrace(
-            new SSLException("engine closed"), ReferenceCountedOpenSslEngine.class, "beginHandshake()");
+            new NettySSLException("engine closed"), ReferenceCountedOpenSslEngine.class, "beginHandshake()");
     private static final SSLException HANDSHAKE_ENGINE_CLOSED = ThrowableUtil.unknownStackTrace(
-            new SSLException("engine closed"), ReferenceCountedOpenSslEngine.class, "handshake()");
+            new NettySSLException("engine closed"), ReferenceCountedOpenSslEngine.class, "handshake()");
     private static final SSLException RENEGOTIATION_UNSUPPORTED =  ThrowableUtil.unknownStackTrace(
-            new SSLException("renegotiation unsupported"), ReferenceCountedOpenSslEngine.class, "beginHandshake()");
+            new NettySSLException("renegotiation unsupported"), ReferenceCountedOpenSslEngine.class, "beginHandshake()");
     private static final SSLException ENCRYPTED_PACKET_OVERSIZED = ThrowableUtil.unknownStackTrace(
-            new SSLException("encrypted packet oversized"), ReferenceCountedOpenSslEngine.class, "unwrap(...)");
+            new NettySSLException("encrypted packet oversized"), ReferenceCountedOpenSslEngine.class, "unwrap(...)");
     private static final Class<?> SNI_HOSTNAME_CLASS;
     private static final Method GET_SERVER_NAMES_METHOD;
     private static final Method SET_SERVER_NAMES_METHOD;

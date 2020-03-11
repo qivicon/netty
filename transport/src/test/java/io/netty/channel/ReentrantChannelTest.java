@@ -15,17 +15,22 @@
  */
 package io.netty.channel;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.nio.channels.ClosedChannelException;
+
+import org.junit.Test;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.LoggingHandler.Event;
 import io.netty.channel.local.LocalAddress;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import org.junit.Test;
-
-import java.nio.channels.ClosedChannelException;
-
-import static org.junit.Assert.*;
 
 public class ReentrantChannelTest extends BaseChannelTest {
 
@@ -48,26 +53,26 @@ public class ReentrantChannelTest extends BaseChannelTest {
         // What is supposed to happen from this point:
         //
         // 1. Because this write attempt has been made from a non-I/O thread,
-        //    ChannelOutboundBuffer.pendingWriteBytes will be increased before
-        //    write() event is really evaluated.
-        //    -> channelWritabilityChanged() will be triggered,
-        //       because the Channel became unwritable.
+        // ChannelOutboundBuffer.pendingWriteBytes will be increased before
+        // write() event is really evaluated.
+        // -> channelWritabilityChanged() will be triggered,
+        // because the Channel became unwritable.
         //
         // 2. The write() event is handled by the pipeline in an I/O thread.
-        //    -> write() will be triggered.
+        // -> write() will be triggered.
         //
         // 3. Once the write() event is handled, ChannelOutboundBuffer.pendingWriteBytes
-        //    will be decreased.
-        //    -> channelWritabilityChanged() will be triggered,
-        //       because the Channel became writable again.
+        // will be decreased.
+        // -> channelWritabilityChanged() will be triggered,
+        // because the Channel became writable again.
         //
         // 4. The message is added to the ChannelOutboundBuffer and thus
-        //    pendingWriteBytes will be increased again.
-        //    -> channelWritabilityChanged() will be triggered.
+        // pendingWriteBytes will be increased again.
+        // -> channelWritabilityChanged() will be triggered.
         //
         // 5. The flush() event causes the write request in theChannelOutboundBuffer
-        //    to be removed.
-        //    -> flush() and channelWritabilityChanged() will be triggered.
+        // to be removed.
+        // -> flush() and channelWritabilityChanged() will be triggered.
         //
         // Note that the channelWritabilityChanged() in the step 4 can occur between
         // the flush() and the channelWritabilityChanged() in the stap 5, because
@@ -83,19 +88,11 @@ public class ReentrantChannelTest extends BaseChannelTest {
 
         assertLog(
                 // Case 1:
-                "WRITABILITY: writable=false\n" +
-                "WRITE\n" +
-                "WRITABILITY: writable=false\n" +
-                "WRITABILITY: writable=false\n" +
-                "FLUSH\n" +
-                "WRITABILITY: writable=true\n",
+                "WRITABILITY: writable=false\n" + "WRITE\n" + "WRITABILITY: writable=false\n"
+                        + "WRITABILITY: writable=false\n" + "FLUSH\n" + "WRITABILITY: writable=true\n",
                 // Case 2:
-                "WRITABILITY: writable=false\n" +
-                "WRITE\n" +
-                "WRITABILITY: writable=false\n" +
-                "FLUSH\n" +
-                "WRITABILITY: writable=true\n" +
-                "WRITABILITY: writable=true\n");
+                "WRITABILITY: writable=false\n" + "WRITE\n" + "WRITABILITY: writable=false\n" + "FLUSH\n"
+                        + "WRITABILITY: writable=true\n" + "WRITABILITY: writable=true\n");
     }
 
     /**
@@ -134,21 +131,11 @@ public class ReentrantChannelTest extends BaseChannelTest {
 
         assertLog(
                 // Case 1:
-                "WRITABILITY: writable=false\n" +
-                "FLUSH\n" +
-                "WRITE\n" +
-                "WRITABILITY: writable=false\n" +
-                "WRITABILITY: writable=false\n" +
-                "FLUSH\n" +
-                "WRITABILITY: writable=true\n",
+                "WRITABILITY: writable=false\n" + "FLUSH\n" + "WRITE\n" + "WRITABILITY: writable=false\n"
+                        + "WRITABILITY: writable=false\n" + "FLUSH\n" + "WRITABILITY: writable=true\n",
                 // Case 2:
-                "WRITABILITY: writable=false\n" +
-                "FLUSH\n" +
-                "WRITE\n" +
-                "WRITABILITY: writable=false\n" +
-                "FLUSH\n" +
-                "WRITABILITY: writable=true\n" +
-                "WRITABILITY: writable=true\n");
+                "WRITABILITY: writable=false\n" + "FLUSH\n" + "WRITE\n" + "WRITABILITY: writable=false\n" + "FLUSH\n"
+                        + "WRITABILITY: writable=true\n" + "WRITABILITY: writable=true\n");
     }
 
     @Test
@@ -176,7 +163,7 @@ public class ReentrantChannelTest extends BaseChannelTest {
                     writeCount++;
                     ctx.channel().flush();
                 }
-                super.write(ctx, msg,  promise);
+                super.write(ctx, msg, promise);
             }
 
             @Override
@@ -192,20 +179,8 @@ public class ReentrantChannelTest extends BaseChannelTest {
         clientChannel.writeAndFlush(createTestBuf(2000));
         clientChannel.close().sync();
 
-        assertLog(
-                "WRITE\n" +
-                "FLUSH\n" +
-                "WRITE\n" +
-                "FLUSH\n" +
-                "WRITE\n" +
-                "FLUSH\n" +
-                "WRITE\n" +
-                "FLUSH\n" +
-                "WRITE\n" +
-                "FLUSH\n" +
-                "WRITE\n" +
-                "FLUSH\n" +
-                "CLOSE\n");
+        assertLog("WRITE\n" + "FLUSH\n" + "WRITE\n" + "FLUSH\n" + "WRITE\n" + "FLUSH\n" + "WRITE\n" + "FLUSH\n"
+                + "WRITE\n" + "FLUSH\n" + "WRITE\n" + "FLUSH\n" + "CLOSE\n");
     }
 
     @Test
@@ -274,8 +249,8 @@ public class ReentrantChannelTest extends BaseChannelTest {
             clientChannel.writeAndFlush(createTestBuf(2000)).sync();
             fail();
         } catch (Throwable cce) {
-            // FIXME:  shouldn't this contain the "intentional failure" exception?
-            assertEquals(ClosedChannelException.class, cce.getClass());
+            // FIXME: shouldn't this contain the "intentional failure" exception?
+            assertThat(cce, is(instanceOf(ClosedChannelException.class)));
         }
 
         clientChannel.closeFuture().sync();

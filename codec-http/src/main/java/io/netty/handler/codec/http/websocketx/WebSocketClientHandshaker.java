@@ -34,6 +34,7 @@ import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.HttpResponseDecoder;
 import io.netty.handler.codec.http.HttpScheme;
 import io.netty.util.ReferenceCountUtil;
+import io.netty.util.internal.NettyClosedChannelException;
 import io.netty.util.internal.ThrowableUtil;
 
 import java.net.URI;
@@ -44,7 +45,7 @@ import java.nio.channels.ClosedChannelException;
  */
 public abstract class WebSocketClientHandshaker {
     private static final ClosedChannelException CLOSED_CHANNEL_EXCEPTION = ThrowableUtil.unknownStackTrace(
-            new ClosedChannelException(), WebSocketClientHandshaker.class, "processHandshake(...)");
+            new NettyClosedChannelException(), WebSocketClientHandshaker.class, "processHandshake(...)");
 
     private final URI uri;
 

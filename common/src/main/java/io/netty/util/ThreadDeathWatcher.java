@@ -16,12 +16,6 @@
 
 package io.netty.util;
 
-import io.netty.util.concurrent.DefaultThreadFactory;
-import io.netty.util.internal.StringUtil;
-import io.netty.util.internal.SystemPropertyUtil;
-import io.netty.util.internal.logging.InternalLogger;
-import io.netty.util.internal.logging.InternalLoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -30,11 +24,17 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import io.netty.util.concurrent.DefaultThreadFactory;
+import io.netty.util.internal.StringUtil;
+import io.netty.util.internal.SystemPropertyUtil;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
+
 /**
  * Checks if a thread is alive periodically and runs a task when a thread dies.
  * <p>
  * This thread starts a daemon thread to check the state of the threads being watched and to invoke their
- * associated {@link Runnable}s.  When there is no thread to watch (i.e. all threads are dead), the daemon thread
+ * associated {@link Runnable}s. When there is no thread to watch (i.e. all threads are dead), the daemon thread
  * will terminate itself, and a new daemon thread will be started again when a new watch is added.
  * </p>
  */
@@ -67,7 +67,7 @@ public final class ThreadDeathWatcher {
      * Schedules the specified {@code task} to run when the specified {@code thread} dies.
      *
      * @param thread the {@link Thread} to watch
-     * @param task the {@link Runnable} to run when the {@code thread} dies
+     * @param task   the {@link Runnable} to run when the {@code thread} dies
      *
      * @throws IllegalArgumentException if the specified {@code thread} is not alive
      */
@@ -132,7 +132,8 @@ public final class ThreadDeathWatcher {
         }
     }
 
-    private ThreadDeathWatcher() { }
+    private ThreadDeathWatcher() {
+    }
 
     private static final class Watcher implements Runnable {
 
@@ -165,9 +166,9 @@ public final class ThreadDeathWatcher {
                     // Check if there are pending entries added by watch() while we do CAS above.
                     if (pendingEntries.isEmpty()) {
                         // A) watch() was not invoked and thus there's nothing to handle
-                        //    -> safe to terminate because there's nothing left to do
+                        // -> safe to terminate because there's nothing left to do
                         // B) a new watcher thread started and handled them all
-                        //    -> safe to terminate the new watcher thread will take care the rest
+                        // -> safe to terminate the new watcher thread will take care the rest
                         break;
                     }
 
@@ -212,7 +213,7 @@ public final class ThreadDeathWatcher {
                         logger.warn("Thread death watcher task raised an exception:", t);
                     }
                 } else {
-                    i ++;
+                    i++;
                 }
             }
         }

@@ -107,6 +107,7 @@ public class DefaultThreadFactory implements ThreadFactory {
     public Thread newThread(Runnable r) {
         Thread t = newThread(new DefaultRunnableDecorator(r), prefix + nextId.incrementAndGet());
         try {
+            t.setContextClassLoader(ClassLoader.getSystemClassLoader());
             if (t.isDaemon()) {
                 if (!daemon) {
                     t.setDaemon(false);

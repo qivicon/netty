@@ -25,19 +25,31 @@
 
   <artifactId>netty-transport</artifactId>
   <packaging>jar</packaging>
+  <version>4.1.8.Final-leakfixed</version>
+  
 
   <name>Netty/Transport</name>
-
+  <distributionManagement>
+    <repository>
+      <id>maven-releases-manual</id>
+      <url>http://qivicon-wbench.psst.t-online.corp/nexus3/repository/maven-releases-manual/</url>
+    </repository>
+  </distributionManagement>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>netty-buffer</artifactId>
+      <artifactId>netty-common</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>netty-buffer</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>netty-resolver</artifactId>
-      <version>${project.version}</version>
+      <version>${project.parent.version}</version>
     </dependency>
   </dependencies>
 </project>

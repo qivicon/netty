@@ -28,6 +28,7 @@ import io.netty.channel.EventLoop;
 import io.netty.channel.RecvByteBufAllocator;
 import io.netty.util.ReferenceCountUtil;
 import io.netty.util.concurrent.EventExecutor;
+import io.netty.util.internal.NettyClosedChannelException;
 import io.netty.util.internal.ObjectUtil;
 import io.netty.util.internal.ThrowableUtil;
 
@@ -48,7 +49,7 @@ abstract class AbstractHttp2StreamChannel extends AbstractChannel {
     protected static final Object CLOSE_MESSAGE = new Object();
     private static final ChannelMetadata METADATA = new ChannelMetadata(false, 16);
     private static final ClosedChannelException CLOSED_CHANNEL_EXCEPTION = ThrowableUtil.unknownStackTrace(
-            new ClosedChannelException(), AbstractHttp2StreamChannel.class, "doWrite(...)");
+            new NettyClosedChannelException(), AbstractHttp2StreamChannel.class, "doWrite(...)");
     /**
      * Number of bytes to consider non-payload messages, to determine when to stop reading. 9 is
      * arbitrary, but also the minimum size of an HTTP/2 frame. Primarily is non-zero.

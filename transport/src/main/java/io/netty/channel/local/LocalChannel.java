@@ -29,6 +29,7 @@ import io.netty.util.ReferenceCountUtil;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.SingleThreadEventExecutor;
 import io.netty.util.internal.InternalThreadLocalMap;
+import io.netty.util.internal.NettyClosedChannelException;
 import io.netty.util.internal.PlatformDependent;
 import io.netty.util.internal.ThrowableUtil;
 import io.netty.util.internal.logging.InternalLogger;
@@ -54,9 +55,9 @@ public class LocalChannel extends AbstractChannel {
     private static final ChannelMetadata METADATA = new ChannelMetadata(false);
     private static final int MAX_READER_STACK_DEPTH = 8;
     private static final ClosedChannelException DO_WRITE_CLOSED_CHANNEL_EXCEPTION = ThrowableUtil.unknownStackTrace(
-            new ClosedChannelException(), LocalChannel.class, "doWrite(...)");
+            new NettyClosedChannelException(), LocalChannel.class, "doWrite(...)");
     private static final ClosedChannelException DO_CLOSE_CLOSED_CHANNEL_EXCEPTION = ThrowableUtil.unknownStackTrace(
-            new ClosedChannelException(), LocalChannel.class, "doClose()");
+            new NettyClosedChannelException(), LocalChannel.class, "doClose()");
 
     private enum State { OPEN, BOUND, CONNECTED, CLOSED }
 

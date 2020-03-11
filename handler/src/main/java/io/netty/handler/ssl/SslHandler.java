@@ -40,6 +40,8 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.FutureListener;
 import io.netty.util.concurrent.ImmediateExecutor;
 import io.netty.util.concurrent.Promise;
+import io.netty.util.internal.NettyClosedChannelException;
+import io.netty.util.internal.NettySSLException;
 import io.netty.util.internal.PlatformDependent;
 import io.netty.util.internal.ThrowableUtil;
 import io.netty.util.internal.logging.InternalLogger;
@@ -173,11 +175,11 @@ public class SslHandler extends ByteToMessageDecoder implements ChannelOutboundH
      * creation as {@link Unpooled#EMPTY_BUFFER#nioBuffer()} creates a new {@link ByteBuffer} everytime.
      */
     private static final SSLException SSLENGINE_CLOSED = ThrowableUtil.unknownStackTrace(
-            new SSLException("SSLEngine closed already"), SslHandler.class, "wrap(...)");
+            new NettySSLException("SSLEngine closed already"), SslHandler.class, "wrap(...)");
     private static final SSLException HANDSHAKE_TIMED_OUT = ThrowableUtil.unknownStackTrace(
-            new SSLException("handshake timed out"), SslHandler.class, "handshake(...)");
+            new NettySSLException("handshake timed out"), SslHandler.class, "handshake(...)");
     private static final ClosedChannelException CHANNEL_CLOSED = ThrowableUtil.unknownStackTrace(
-            new ClosedChannelException(), SslHandler.class, "channelInactive(...)");
+            new NettyClosedChannelException(), SslHandler.class, "channelInactive(...)");
 
     private enum SslEngineType {
         TCNATIVE(true, COMPOSITE_CUMULATOR) {

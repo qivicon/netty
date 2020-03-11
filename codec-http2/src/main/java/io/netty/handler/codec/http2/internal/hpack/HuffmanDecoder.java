@@ -41,7 +41,7 @@ import io.netty.util.internal.ThrowableUtil;
 import java.io.IOException;
 
 import static io.netty.handler.codec.http2.Http2Error.COMPRESSION_ERROR;
-import static io.netty.handler.codec.http2.Http2Exception.connectionError;
+import static io.netty.handler.codec.http2.Http2Exception.NettyHttp2Exception.connectionError;
 import static io.netty.handler.codec.http2.internal.hpack.HpackUtil.HUFFMAN_CODES;
 import static io.netty.handler.codec.http2.internal.hpack.HpackUtil.HUFFMAN_CODE_LENGTHS;
 

@@ -28,6 +28,8 @@ import io.netty.util.CharsetUtil;
 import io.netty.util.internal.StringUtil;
 import org.junit.Test;
 
+import com.google.common.io.Files;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -86,7 +88,7 @@ public class HttpPostRequestEncoderTest {
                 CONTENT_TYPE + ": text/plain" + "\r\n" +
                 CONTENT_TRANSFER_ENCODING + ": binary" + "\r\n" +
                 "\r\n" +
-                "File 01" + StringUtil.NEWLINE +
+                new String(java.nio.file.Files.readAllBytes(file1.toPath())) +
                 "\r\n" +
                 "--" + multipartDataBoundary + "--" + "\r\n";
 
@@ -119,7 +121,7 @@ public class HttpPostRequestEncoderTest {
                 CONTENT_TYPE + ": text/plain" + "\r\n" +
                 CONTENT_TRANSFER_ENCODING + ": binary" + "\r\n" +
                 "\r\n" +
-                "File 01" + StringUtil.NEWLINE +
+                new String(java.nio.file.Files.readAllBytes(file1.toPath())) +
                 "\r\n" +
                 "--" + multipartDataBoundary + "--" + "\r\n";
 
@@ -160,7 +162,7 @@ public class HttpPostRequestEncoderTest {
                 CONTENT_TYPE + ": text/plain" + "\r\n" +
                 CONTENT_TRANSFER_ENCODING + ": binary" + "\r\n" +
                 "\r\n" +
-                "File 01" + StringUtil.NEWLINE +
+                new String(java.nio.file.Files.readAllBytes(file1.toPath())) +
                 "\r\n" +
                 "--" + multipartMixedBoundary + "\r\n" +
                 CONTENT_DISPOSITION + ": attachment; filename=\"file-02.txt\"" + "\r\n" +
@@ -168,7 +170,7 @@ public class HttpPostRequestEncoderTest {
                 CONTENT_TYPE + ": text/plain" + "\r\n" +
                 CONTENT_TRANSFER_ENCODING + ": binary" + "\r\n" +
                 "\r\n" +
-                "File 02" + StringUtil.NEWLINE +
+                new String(java.nio.file.Files.readAllBytes(file2.toPath())) +
                 "\r\n" +
                 "--" + multipartMixedBoundary + "--" + "\r\n" +
                 "--" + multipartDataBoundary + "--" + "\r\n";
@@ -210,7 +212,7 @@ public class HttpPostRequestEncoderTest {
                 CONTENT_TYPE + ": text/plain" + "\r\n" +
                 CONTENT_TRANSFER_ENCODING + ": binary" + "\r\n" +
                 "\r\n" +
-                "File 01" + StringUtil.NEWLINE +
+                new String(java.nio.file.Files.readAllBytes(file1.toPath())) +
                 "\r\n" +
                 "--" + multipartMixedBoundary + "\r\n" +
                 CONTENT_DISPOSITION + ": attachment\r\n" +
@@ -218,7 +220,7 @@ public class HttpPostRequestEncoderTest {
                 CONTENT_TYPE + ": text/plain" + "\r\n" +
                 CONTENT_TRANSFER_ENCODING + ": binary" + "\r\n" +
                 "\r\n" +
-                "File 02" + StringUtil.NEWLINE +
+                new String(java.nio.file.Files.readAllBytes(file2.toPath())) +
                 "\r\n" +
                 "--" + multipartMixedBoundary + "--" + "\r\n" +
                 "--" + multipartDataBoundary + "--" + "\r\n";
@@ -256,14 +258,15 @@ public class HttpPostRequestEncoderTest {
                 CONTENT_TYPE + ": text/plain" + "\r\n" +
                 CONTENT_TRANSFER_ENCODING + ": binary" + "\r\n" +
                 "\r\n" +
-                "File 01" + StringUtil.NEWLINE + "\r\n" +
+                new String(java.nio.file.Files.readAllBytes(file1.toPath())) +
+                "\r\n" +
                 "--" + multipartDataBoundary + "\r\n" +
                 CONTENT_DISPOSITION + ": form-data; name=\"quux\"; filename=\"file-02.txt\"" + "\r\n" +
                 CONTENT_LENGTH + ": " + file2.length() + "\r\n" +
                 CONTENT_TYPE + ": text/plain" + "\r\n" +
                 CONTENT_TRANSFER_ENCODING + ": binary" + "\r\n" +
                 "\r\n" +
-                "File 02" + StringUtil.NEWLINE +
+                new String(java.nio.file.Files.readAllBytes(file2.toPath())) +
                 "\r\n" +
                 "--" + multipartDataBoundary + "--" + "\r\n";
 
@@ -299,7 +302,7 @@ public class HttpPostRequestEncoderTest {
                 CONTENT_TYPE + ": text/plain" + "\r\n" +
                 CONTENT_TRANSFER_ENCODING + ": binary" + "\r\n" +
                 "\r\n" +
-                "File 01" + StringUtil.NEWLINE +
+                new String(java.nio.file.Files.readAllBytes(file1.toPath())) +
                 "\r\n" +
                 "--" + multipartDataBoundary + "--" + "\r\n";
 

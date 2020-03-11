@@ -23,11 +23,17 @@
     <version>4.1.8.Final</version>
   </parent>
 
+  <version>4.1.8.Final-leakfixed</version>
   <artifactId>netty-codec-http2</artifactId>
   <packaging>jar</packaging>
 
   <name>Netty/Codec/HTTP2</name>
-
+  <distributionManagement>
+    <repository>
+      <id>maven-releases-manual</id>
+      <url>http://qivicon-wbench.psst.t-online.corp/nexus3/repository/maven-releases-manual/</url>
+    </repository>
+  </distributionManagement>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>

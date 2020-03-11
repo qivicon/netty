@@ -34,6 +34,7 @@ package io.netty.handler.codec.http2.internal.hpack;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.http2.Http2CodecUtil;
 import io.netty.handler.codec.http2.Http2Exception;
+import io.netty.handler.codec.http2.Http2Exception.NettyHttp2Exception;
 import io.netty.handler.codec.http2.Http2Headers;
 import io.netty.handler.codec.http2.internal.hpack.HpackUtil.IndexType;
 import io.netty.util.AsciiString;
@@ -54,22 +55,22 @@ import static io.netty.util.internal.ThrowableUtil.unknownStackTrace;
 
 public final class Decoder {
     private static final Http2Exception DECODE_ULE_128_DECOMPRESSION_EXCEPTION = unknownStackTrace(
-            connectionError(COMPRESSION_ERROR, "HPACK - decompression failure"), Decoder.class, "decodeULE128(...)");
+            NettyHttp2Exception.connectionError(COMPRESSION_ERROR, "HPACK - decompression failure"), Decoder.class, "decodeULE128(...)");
     private static final Http2Exception DECODE_ULE_128_TO_LONG_DECOMPRESSION_EXCEPTION = unknownStackTrace(
-            connectionError(COMPRESSION_ERROR, "HPACK - long overflow"), Decoder.class, "decodeULE128(...)");
+            NettyHttp2Exception.connectionError(COMPRESSION_ERROR, "HPACK - long overflow"), Decoder.class, "decodeULE128(...)");
     private static final Http2Exception DECODE_ULE_128_TO_INT_DECOMPRESSION_EXCEPTION = unknownStackTrace(
-            connectionError(COMPRESSION_ERROR, "HPACK - int overflow"), Decoder.class, "decodeULE128ToInt(...)");
+            NettyHttp2Exception.connectionError(COMPRESSION_ERROR, "HPACK - int overflow"), Decoder.class, "decodeULE128ToInt(...)");
     private static final Http2Exception DECODE_ILLEGAL_INDEX_VALUE = unknownStackTrace(
-            connectionError(COMPRESSION_ERROR, "HPACK - illegal index value"), Decoder.class, "decode(...)");
+            NettyHttp2Exception.connectionError(COMPRESSION_ERROR, "HPACK - illegal index value"), Decoder.class, "decode(...)");
     private static final Http2Exception INDEX_HEADER_ILLEGAL_INDEX_VALUE = unknownStackTrace(
-            connectionError(COMPRESSION_ERROR, "HPACK - illegal index value"), Decoder.class, "indexHeader(...)");
+            NettyHttp2Exception.connectionError(COMPRESSION_ERROR, "HPACK - illegal index value"), Decoder.class, "indexHeader(...)");
     private static final Http2Exception READ_NAME_ILLEGAL_INDEX_VALUE = unknownStackTrace(
-            connectionError(COMPRESSION_ERROR, "HPACK - illegal index value"), Decoder.class, "readName(...)");
+            NettyHttp2Exception.connectionError(COMPRESSION_ERROR, "HPACK - illegal index value"), Decoder.class, "readName(...)");
     private static final Http2Exception INVALID_MAX_DYNAMIC_TABLE_SIZE = unknownStackTrace(
-            connectionError(COMPRESSION_ERROR, "HPACK - invalid max dynamic table size"), Decoder.class,
+            NettyHttp2Exception.connectionError(COMPRESSION_ERROR, "HPACK - invalid max dynamic table size"), Decoder.class,
             "setDynamicTableSize(...)");
     private static final Http2Exception MAX_DYNAMIC_TABLE_SIZE_CHANGE_REQUIRED = unknownStackTrace(
-            connectionError(COMPRESSION_ERROR, "HPACK - max dynamic table size change required"), Decoder.class,
+            NettyHttp2Exception.connectionError(COMPRESSION_ERROR, "HPACK - max dynamic table size change required"), Decoder.class,
             "decode(...)");
     private static final byte READ_HEADER_REPRESENTATION = 0;
     private static final byte READ_MAX_DYNAMIC_TABLE_SIZE = 1;
